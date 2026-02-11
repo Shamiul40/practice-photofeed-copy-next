@@ -2,6 +2,7 @@ import { match } from "@formatjs/intl-localematcher";
 import Negotiator from "negotiator";
 import { NextResponse } from "next/server";
 
+
 const locales = ["en", "bn"];
 const defaultLocale = "en";
 
@@ -10,7 +11,7 @@ const getLocale = (request) => {
   const headers = { "accept-language": acceptLanguage };
   const languages = new Negotiator({ headers }).languages();
 
-  match(languages, locales, defaultLocale);
+  return match(languages, locales, defaultLocale);
 };
 
 export async function middleware(request) {
@@ -18,22 +19,25 @@ export async function middleware(request) {
 
   const missingPathnameInLocale = locales.every(
     (locale) =>
-      !pathName.startsWith(`/${locale}`) || !pathName.startsWith(`/${locale}/`),
+      !pathName.startsWith(`/${locale}`) && !pathName.startsWith(`/${locale}/`),
   );
 
   if (missingPathnameInLocale) {
-      const locale = getLocale(request);
+    const locale = getLocale(request);
 
-    return NextResponse.redirect(new URL(`/${locale}/${pathName}`), request.url)
+    return NextResponse.redirect(
+      new URL(`/${locale}/${pathName}`, request.url)
+      
+    )
+
   }
-
 }
 
 export const config = {
   matcher: [
     // Skip all internal paths (_next)
-    '/((?!_next).*)',
+    "/((?!_next).*)",
     // Optional: only run on root (/) URL
     // '/'
   ],
-}
+};
