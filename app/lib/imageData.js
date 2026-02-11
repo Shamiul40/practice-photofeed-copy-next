@@ -240,3 +240,12 @@ const photos = [
     likes: 100,
   },
 ];
+
+export const getPhotos = () => {
+  return photos;
+};
+
+export const getPhotosById = (photoId) => {
+  const singlePhoto = photos.find((photo) => (photo.id === photoId));
+  return singlePhoto;
+};
