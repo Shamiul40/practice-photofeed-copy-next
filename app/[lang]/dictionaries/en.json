@@ -1,3 +1,10 @@
 {
-    "images" : "there is no images"
+    "views" : "views",
+    "share" : "share",
+    "uploadedOn" : "upload on",
+    "save" : "save",
+    "followers" : "followers",
+    "follow" : "follow"
+
+
 }
